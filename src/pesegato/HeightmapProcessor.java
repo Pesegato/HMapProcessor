@@ -2,7 +2,9 @@
 package pesegato;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.export.Savable;
 import com.jme3.export.binary.BinaryExporter;
+import com.jme3.export.binary.BinaryImporter;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
@@ -23,15 +25,10 @@ public class HeightmapProcessor {
 
     int size;
     private float hm[];
-    Material matTerrain;
-    private float grassScale = 64;
-    private float dirtScale = 16;
-    private float rockScale = 128;
     
     HMProcessorMask mask;
     
-    public HeightmapProcessor(AssetManager assetManager, float[] heightmapF, Material mat){
-        matTerrain=mat;
+    public HeightmapProcessor(float[] heightmapF){
         AbstractHeightMap heightmap = null;
         try {
             heightmap = new RawHeightMap(heightmapF);
@@ -43,33 +40,18 @@ public class HeightmapProcessor {
         mask=new NoMask();
     }
     
-    public HeightmapProcessor(AssetManager assetManager, String path){
-        Texture heightMapImage = assetManager.loadTexture(path);
-        matTerrain=new Material(assetManager, "Common/MatDefs/Terrain/TerrainLighting.j3md");
-        matTerrain.setBoolean("useTriPlanarMapping", false);
-        matTerrain.setBoolean("WardIso", true);
-        matTerrain.setFloat("Shininess", 0);
-
-        // ALPHA map (for splat textures)
-        matTerrain.setTexture("AlphaMap", assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
-
-        // GRASS texture
-        Texture grass = assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
-        grass.setWrap(Texture.WrapMode.Repeat);
-        matTerrain.setTexture("DiffuseMap", grass);
-        matTerrain.setFloat("DiffuseMap_0_scale", grassScale);
-
-        // DIRT texture
-        Texture dirt = assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
-        dirt.setWrap(Texture.WrapMode.Repeat);
-        matTerrain.setTexture("DiffuseMap_1", dirt);
-        matTerrain.setFloat("DiffuseMap_1_scale", dirtScale);
-
-        // ROCK texture
-        Texture rock = assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
-        rock.setWrap(Texture.WrapMode.Repeat);
-        matTerrain.setTexture("DiffuseMap_2", rock);
-        matTerrain.setFloat("DiffuseMap_2_scale", rockScale);
+    public HeightmapProcessor(File j3oFile){
+        //BinaryImporter importer=BinaryImporter.getInstance();
+        //Savable s=importer.load(j3oFile);
+    }
+    
+    public HeightmapProcessor(TerrainQuad terrain){
+        size=terrain.getTotalSize();
+        hm=terrain.getHeightMap();
+        mask=new NoMask();
+    }
+    
+    public HeightmapProcessor(Texture heightMapImage){
         AbstractHeightMap heightmap = null;
         try {
             heightmap = new ImageBasedHeightMap(heightMapImage.getImage());
@@ -95,7 +77,7 @@ public class HeightmapProcessor {
             hm[row*size+col]=height;
     }
     
-    public void finish(String path, String name, int patchsize, int totalsize){
+    public void finish(Material matTerrain, String path, String name, int patchsize, int totalsize){
         Node rootNode=new Node();
         TerrainQuad tq=new TerrainQuad("terraintest", patchsize, totalsize, hm);
         tq.setMaterial(matTerrain);
@@ -114,13 +96,5 @@ public class HeightmapProcessor {
         } catch (IOException ex) {
         Logger.getLogger(HeightmapProcessor.class.getName()).log(Level.SEVERE, "Error: Failed to save game!", ex);
     }
-    }
-    
-    class NoMask implements HMProcessorMask{
-
-        public boolean mask(int row, int col) {
-            return true;
-        }
-        
     }
 }
