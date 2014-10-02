@@ -40,9 +40,12 @@ public class HeightmapProcessor {
         mask=new NoMask();
     }
     
-    public HeightmapProcessor(File j3oFile){
-        //BinaryImporter importer=BinaryImporter.getInstance();
-        //Savable s=importer.load(j3oFile);
+    public HeightmapProcessor(AssetManager assetManager, String j3oFilePath){
+        Node loadedNode = (Node)assetManager.loadModel(j3oFilePath);
+        TerrainQuad terrain=(TerrainQuad) loadedNode.getChild("Terrain");
+        size=terrain.getTotalSize();
+        hm=terrain.getHeightMap();
+        mask=new NoMask();
     }
     
     public HeightmapProcessor(TerrainQuad terrain){
