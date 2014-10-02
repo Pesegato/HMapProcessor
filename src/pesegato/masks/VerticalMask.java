@@ -1,5 +1,7 @@
 
-package pesegato;
+package pesegato.masks;
+
+import pesegato.HMProcessorMask;
 
 
 public class VerticalMask implements HMProcessorMask{

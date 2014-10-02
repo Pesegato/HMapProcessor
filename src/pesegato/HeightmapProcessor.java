@@ -1,10 +1,9 @@
 
 package pesegato;
 
+import pesegato.masks.NoMask;
 import com.jme3.asset.AssetManager;
-import com.jme3.export.Savable;
 import com.jme3.export.binary.BinaryExporter;
-import com.jme3.export.binary.BinaryImporter;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
@@ -23,7 +22,7 @@ import java.util.logging.Logger;
 
 public class HeightmapProcessor {
 
-    int size;
+    public int size;
     private float hm[];
     
     HMProcessorMask mask;

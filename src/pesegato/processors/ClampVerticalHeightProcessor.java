@@ -1,4 +1,6 @@
-package pesegato;
+package pesegato.processors;
+
+import pesegato.HeightmapProcessor;
 
 public class ClampVerticalHeightProcessor {
 

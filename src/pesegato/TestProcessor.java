@@ -1,10 +1,17 @@
 package pesegato;
 
+import pesegato.processors.ClampVerticalHeightProcessor;
+import pesegato.processors.FixedHeightProcessor;
+import pesegato.masks.HorizontalMask;
+import pesegato.masks.VerticalMask;
+import pesegato.masks.BooleanORMask;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.system.JmeContext;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import pesegato.masks.NoMask;
+import pesegato.processors.SmoothProcessor;
 
 public class TestProcessor extends SimpleApplication {
 
@@ -60,6 +67,9 @@ public class TestProcessor extends SimpleApplication {
         ClampVerticalHeightProcessor.towardEast(hmp, maxStep);
         hmp.setFilter(new HorizontalMask(16, false));
         ClampVerticalHeightProcessor.towardWest(hmp, maxStep);
+        
+        hmp.setFilter(new VerticalMask(10, true));
+        SmoothProcessor.smooth(hmp, 1, 5);
 
         hmp.finish(mat_terrain,"assets/Scenes/TestP.j3o", "myTerrain", 33, 33);//65, 513);
         System.out.println("Done!");

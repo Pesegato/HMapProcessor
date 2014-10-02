@@ -1,4 +1,6 @@
-package pesegato;
+package pesegato.masks;
+
+import pesegato.HMProcessorMask;
 
 public class BooleanORMask implements HMProcessorMask{
 
