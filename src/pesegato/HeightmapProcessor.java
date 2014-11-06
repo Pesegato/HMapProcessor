@@ -26,6 +26,7 @@ public class HeightmapProcessor {
     private float hm[];
     
     HMProcessorMask mask;
+    Material matTemp;
     
     public HeightmapProcessor(float[] heightmapF){
         AbstractHeightMap heightmap = null;
@@ -50,6 +51,7 @@ public class HeightmapProcessor {
     public HeightmapProcessor(TerrainQuad terrain){
         size=terrain.getTotalSize();
         hm=terrain.getHeightMap();
+        matTemp=terrain.getMaterial();
         mask=new NoMask();
     }
     
@@ -98,5 +100,11 @@ public class HeightmapProcessor {
         } catch (IOException ex) {
         Logger.getLogger(HeightmapProcessor.class.getName()).log(Level.SEVERE, "Error: Failed to save game!", ex);
     }
+    }
+    
+    public TerrainQuad finish(int patchsize, int totalsize){
+        TerrainQuad tq=new TerrainQuad("terraintest", patchsize, size, hm);
+        tq.setMaterial(matTemp);
+        return tq;
     }
 }
