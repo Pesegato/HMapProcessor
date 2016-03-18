@@ -31,54 +31,29 @@ public class TweakScene extends SimpleApplication {
         
         TerrainQuad terrain=(TerrainQuad)((Node)sceneModel).getChild(0);
         
-        /*Material mat_terrain = new Material(assetManager,
-                "Common/MatDefs/Terrain/Terrain.j3md");
-
-        mat_terrain.setTexture("Alpha", assetManager.loadTexture(
-                "Textures/Terrain/splat/alphamap.png"));
-
-        Texture grass = assetManager.loadTexture(
-                "Textures/Terrain/splat/grass.jpg");
-        grass.setWrap(WrapMode.Repeat);
-        mat_terrain.setTexture("Tex1", grass);
-        mat_terrain.setFloat("Tex1Scale", 64f);
-
-        Texture dirt = assetManager.loadTexture(
-                "Textures/Terrain/splat/dirt.jpg");
-        dirt.setWrap(WrapMode.Repeat);
-        mat_terrain.setTexture("Tex2", dirt);
-        mat_terrain.setFloat("Tex2Scale", 32f);
-
-        Texture rock = assetManager.loadTexture(
-                "Textures/Terrain/splat/road.jpg");
-        rock.setWrap(WrapMode.Repeat);
-        mat_terrain.setTexture("Tex3", rock);
-        mat_terrain.setFloat("Tex3Scale", 128f);
-        float f[] = new float[1089];
-        for (int i = 0; i < f.length; i++) {
-            f[i] = 200;
-        }
-        HeightmapProcessor hmp = new HeightmapProcessor(f);
+        Material mat_terrain = terrain.getMaterial();
+        
+        HeightmapProcessor hmp = new HeightmapProcessor(terrain);
         hmp.setFilter(new BooleanORMask(
                 new VerticalMask(1, true), new HorizontalMask(1, true),
-                new VerticalMask(31, false), new HorizontalMask(31, false)));
+                new VerticalMask(255, false), new HorizontalMask(255, false)));
         FixedHeightProcessor.fixedHeight(hmp, 0);
 
-        float maxStep = 1.5f;
+        float maxStep = 5.5f;
 
-        hmp.setFilter(new VerticalMask(18, true));
+        hmp.setFilter(new VerticalMask(30, true));
         ClampVerticalHeightProcessor.towardSouth(hmp, maxStep);
-        hmp.setFilter(new VerticalMask(16, false));
+        hmp.setFilter(new VerticalMask(225, false));
         ClampVerticalHeightProcessor.towardNorth(hmp, maxStep);
-        hmp.setFilter(new HorizontalMask(18, true));
+        hmp.setFilter(new HorizontalMask(30, true));
         ClampVerticalHeightProcessor.towardEast(hmp, maxStep);
-        hmp.setFilter(new HorizontalMask(16, false));
+        hmp.setFilter(new HorizontalMask(225, false));
         ClampVerticalHeightProcessor.towardWest(hmp, maxStep);
-        
+        /*
         hmp.setFilter(new VerticalMask(10, true));
-        SmoothProcessor.smooth(hmp, 1, 5);
+        SmoothProcessor.smooth(hmp, 1, 5);*/
 
-        hmp.finish(mat_terrain,"assets/Scenes/TestP.j3o", "myTerrain", 33, 33);//65, 513);*/
+        hmp.finish(mat_terrain,"assets/Scenes/Tweaked.j3o", "myTerrain", 65, 257);
         System.out.println("Done!");
         System.exit(0);
     }
