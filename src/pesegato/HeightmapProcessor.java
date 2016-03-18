@@ -86,13 +86,7 @@ public class HeightmapProcessor {
         TerrainQuad tq=new TerrainQuad("terraintest", patchsize, totalsize, hm);
         tq.setMaterial(matTerrain);
         rootNode.attachChild(tq);
-        DirectionalLight light = new DirectionalLight();
-        light.setDirection((new Vector3f(-0.5f, -1f, -0.5f)).normalize());
-        rootNode.addLight(light);
 
-        AmbientLight ambLight = new AmbientLight();
-        ambLight.setColor(new ColorRGBA(1f, 1f, 0.8f, 0.2f));
-        rootNode.addLight(ambLight);
         BinaryExporter exporter = BinaryExporter.getInstance();
         File file = new File(path);
         try {
